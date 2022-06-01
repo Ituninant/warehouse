@@ -98,7 +98,15 @@ public class DbFiller {
                 .count(10)
                 .build());
 
-        Obtaining obtaining = obtainingRepository.save(Obtaining.builder()
+        Obtaining obtaining1 = obtainingRepository.save(Obtaining.builder()
+                .operationType(Obtaining.OperationType.ARRIVAL)
+                .documentDate(LocalDate.now())
+                .warehouse(warehouse1)
+                .supplier(supplier)
+                .employee(employee)
+                .paymentStatus(Obtaining.PaymentStatus.PAYED)
+                .build());
+        Obtaining obtaining2 = obtainingRepository.save(Obtaining.builder()
                 .operationType(Obtaining.OperationType.ARRIVAL)
                 .documentDate(LocalDate.now())
                 .warehouse(warehouse1)
@@ -107,8 +115,23 @@ public class DbFiller {
                 .paymentStatus(Obtaining.PaymentStatus.PAYED)
                 .build());
 
-        ObtainingItem obtainingItem = obtainingItemRepository.save(ObtainingItem.builder()
-                .obtaining(obtaining)
+        ObtainingItem obtainingItem1 = obtainingItemRepository.save(ObtainingItem.builder()
+                .obtaining(obtaining1)
+                .product(product)
+                .count(10)
+                .build());
+        ObtainingItem obtainingItem2 = obtainingItemRepository.save(ObtainingItem.builder()
+                .obtaining(obtaining1)
+                .product(product)
+                .count(10)
+                .build());
+        ObtainingItem obtainingItem3 = obtainingItemRepository.save(ObtainingItem.builder()
+                .obtaining(obtaining2)
+                .product(product)
+                .count(10)
+                .build());
+        ObtainingItem obtainingItem4 = obtainingItemRepository.save(ObtainingItem.builder()
+                .obtaining(obtaining2)
                 .product(product)
                 .count(10)
                 .build());

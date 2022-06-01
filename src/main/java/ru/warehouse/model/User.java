@@ -1,5 +1,6 @@
 package ru.warehouse.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,7 @@ public class User {
 
     String login;
 
+    @JsonIgnore
     String password;
 
     @Enumerated(EnumType.STRING)
