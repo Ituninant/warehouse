@@ -77,7 +77,7 @@ public class DbFiller {
                 .build());
 
         Product product = productRepository.save(Product.builder()
-                .barecode(UUID.randomUUID())
+                .barecode(UUID.randomUUID().toString())
                 .type("test")
                 .name("test")
                 .group("test")

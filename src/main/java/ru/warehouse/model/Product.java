@@ -27,7 +27,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    UUID barecode;
+    String barecode;
 
     String type;
 

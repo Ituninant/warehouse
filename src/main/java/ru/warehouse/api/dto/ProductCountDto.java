@@ -11,6 +11,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductCountDto {
 
+    Integer productId;
+
     String product;
 
     Integer count;

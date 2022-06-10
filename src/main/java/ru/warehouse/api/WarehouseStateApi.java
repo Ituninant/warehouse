@@ -3,12 +3,16 @@ package ru.warehouse.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.warehouse.api.dto.WarehouseStateDto;
 import ru.warehouse.model.Product;
 import ru.warehouse.model.Warehouse;
 import ru.warehouse.model.WarehouseState;
+import ru.warehouse.repository.ProductRepository;
+import ru.warehouse.repository.WarehouseRepository;
 import ru.warehouse.repository.WarehouseStateRepository;
 
 import javax.persistence.EntityNotFoundException;
@@ -23,6 +27,8 @@ import static java.util.stream.Collectors.toList;
 public class WarehouseStateApi {
 
     private final WarehouseStateRepository warehouseStateRepository;
+    private final WarehouseRepository warehouseRepository;
+    private final ProductRepository productRepository;
 
     @GetMapping
     public List<WarehouseStateDto> getAll() {
@@ -32,6 +38,16 @@ public class WarehouseStateApi {
     @GetMapping("{id}")
     public WarehouseStateDto getById(@PathVariable Integer id) {
         return mapToDto(warehouseStateRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("WarehouseState with id=" + id + " not found")));
+    }
+
+    @PostMapping
+    public WarehouseStateDto save(@RequestBody WarehouseStateDto warehouseStateDto) {
+        return mapToDto(warehouseStateRepository.save(WarehouseState.builder()
+                .count(warehouseStateDto.getCount())
+                .warehouse(warehouseRepository.findById(warehouseStateDto.getWarehouseId()).get())
+                .product(productRepository.findById(warehouseStateDto.getProductId()).get())
+                .build()
+        ));
     }
 
     private WarehouseStateDto mapToDto(WarehouseState warehouseState) {

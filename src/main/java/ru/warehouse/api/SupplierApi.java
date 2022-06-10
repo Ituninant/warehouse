@@ -3,9 +3,10 @@ package ru.warehouse.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.warehouse.model.Client;
 import ru.warehouse.model.Supplier;
 import ru.warehouse.repository.SupplierRepository;
 
@@ -27,5 +28,10 @@ public class SupplierApi {
     @GetMapping("{id}")
     public Supplier getById(@PathVariable Integer id) {
         return supplierRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Supplier with id=" + id + " not found"));
+    }
+
+    @PostMapping
+    public Supplier save(@RequestBody Supplier supplier) {
+        return supplierRepository.save(supplier);
     }
 }
