@@ -76,25 +76,45 @@ public class DbFiller {
                 .addDate(LocalDate.now())
                 .build());
 
-        Product product = productRepository.save(Product.builder()
+        Product product1 = productRepository.save(Product.builder()
                 .barecode(UUID.randomUUID().toString())
                 .type("test")
-                .name("test")
+                .name("test1")
                 .group("test")
                 .purchasePrice(BigDecimal.TEN)
                 .sellPrice(BigDecimal.valueOf(20))
                 .wholesalePrice(BigDecimal.valueOf(15))
                 .units("test")
                 .build());
+        Product product2 = productRepository.save(Product.builder()
+                .barecode(UUID.randomUUID().toString())
+                .type("test")
+                .name("test2")
+                .group("test")
+                .purchasePrice(BigDecimal.TEN)
+                .sellPrice(BigDecimal.valueOf(25))
+                .wholesalePrice(BigDecimal.valueOf(20))
+                .units("test")
+                .build());
+        Product product3 = productRepository.save(Product.builder()
+                .barecode(UUID.randomUUID().toString())
+                .type("test")
+                .name("test3")
+                .group("test")
+                .purchasePrice(BigDecimal.TEN)
+                .sellPrice(BigDecimal.valueOf(15))
+                .wholesalePrice(BigDecimal.valueOf(12))
+                .units("test")
+                .build());
 
         WarehouseState warehouseState1 = warehouseStateRepository.save(WarehouseState.builder()
                 .warehouse(warehouse1)
-                .product(product)
+                .product(product1)
                 .count(10)
                 .build());
         WarehouseState warehouseState2 = warehouseStateRepository.save(WarehouseState.builder()
                 .warehouse(warehouse2)
-                .product(product)
+                .product(product1)
                 .count(10)
                 .build());
 
@@ -741,22 +761,22 @@ public class DbFiller {
 
         ObtainingItem obtainingItem1 = obtainingItemRepository.save(ObtainingItem.builder()
                 .obtaining(obtaining1)
-                .product(product)
+                .product(product1)
                 .count(10)
                 .build());
         ObtainingItem obtainingItem2 = obtainingItemRepository.save(ObtainingItem.builder()
                 .obtaining(obtaining1)
-                .product(product)
+                .product(product1)
                 .count(10)
                 .build());
         ObtainingItem obtainingItem3 = obtainingItemRepository.save(ObtainingItem.builder()
                 .obtaining(obtaining2)
-                .product(product)
+                .product(product1)
                 .count(10)
                 .build());
         ObtainingItem obtainingItem4 = obtainingItemRepository.save(ObtainingItem.builder()
                 .obtaining(obtaining2)
-                .product(product)
+                .product(product1)
                 .count(10)
                 .build());
 
@@ -772,10 +792,43 @@ public class DbFiller {
                 .addDate(LocalDate.now())
                 .build());
 
-        Sell sell = sellRepository.save(Sell.builder()
-                .sellType(Sell.SellType.RETAIL)
+        Sell sell1 = sellRepository.save(Sell.builder()
+                .sellType(Sell.SellType.WHOLESALE)
                 .paymentType(Sell.PaymentType.TRANSFER)
-                .documentNumber("test")
+                .documentNumber("test1")
+                .date(LocalDate.now())
+                .warehouse(warehouse1)
+                .client(client)
+                .employee(employee)
+                .status(Sell.Status.SALES)
+                .address("test")
+                .build());
+        Sell sell2 = sellRepository.save(Sell.builder()
+                .sellType(Sell.SellType.WHOLESALE)
+                .paymentType(Sell.PaymentType.TRANSFER)
+                .documentNumber("test2")
+                .date(LocalDate.now())
+                .warehouse(warehouse1)
+                .client(client)
+                .employee(employee)
+                .status(Sell.Status.SALES)
+                .address("test")
+                .build());
+        Sell sell3 = sellRepository.save(Sell.builder()
+                .sellType(Sell.SellType.RETAIL)
+                .paymentType(Sell.PaymentType.CASH)
+                .documentNumber("test3")
+                .date(LocalDate.now())
+                .warehouse(warehouse1)
+                .client(client)
+                .employee(employee)
+                .status(Sell.Status.SALES)
+                .address("test")
+                .build());
+        Sell sell4 = sellRepository.save(Sell.builder()
+                .sellType(Sell.SellType.RETAIL)
+                .paymentType(Sell.PaymentType.CASH)
+                .documentNumber("test4")
                 .date(LocalDate.now())
                 .warehouse(warehouse1)
                 .client(client)
@@ -784,10 +837,30 @@ public class DbFiller {
                 .address("test")
                 .build());
 
-        SellItem sellItem = sellItemRepository.save(SellItem.builder()
-                .product(product)
-                .sell(sell)
+        SellItem sellItem1 = sellItemRepository.save(SellItem.builder()
+                .product(product1)
+                .sell(sell1)
                 .count(10)
+                .build());
+        SellItem sellItem2 = sellItemRepository.save(SellItem.builder()
+                .product(product2)
+                .sell(sell1)
+                .count(5)
+                .build());
+        SellItem sellItem3 = sellItemRepository.save(SellItem.builder()
+                .product(product3)
+                .sell(sell2)
+                .count(15)
+                .build());
+        SellItem sellItem4 = sellItemRepository.save(SellItem.builder()
+                .product(product1)
+                .sell(sell3)
+                .count(5)
+                .build());
+        SellItem sellItem5 = sellItemRepository.save(SellItem.builder()
+                .product(product3)
+                .sell(sell4)
+                .count(25)
                 .build());
 
     }
