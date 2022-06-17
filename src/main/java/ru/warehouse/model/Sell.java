@@ -20,11 +20,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 @Data
 @Builder
 @NoArgsConstructor
@@ -44,7 +44,6 @@ public class Sell {
 
     String documentNumber;
 
-    @CreatedDate
     LocalDate date;
 
     @ManyToOne
@@ -92,5 +91,12 @@ public class Sell {
 
         @JsonValue
         String name;
+    }
+
+    @PrePersist
+    void prePersist() {
+        if (date == null) {
+            date = LocalDate.now();
+        }
     }
 }

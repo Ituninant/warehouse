@@ -25,6 +25,7 @@ import ru.warehouse.repository.WarehouseStateRepository;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -792,77 +793,38 @@ public class DbFiller {
                 .addDate(LocalDate.now())
                 .build());
 
-        Sell sell1 = sellRepository.save(Sell.builder()
-                .sellType(Sell.SellType.WHOLESALE)
-                .paymentType(Sell.PaymentType.TRANSFER)
-                .documentNumber("test1")
-                .date(LocalDate.now())
-                .warehouse(warehouse1)
-                .client(client)
-                .employee(employee)
-                .status(Sell.Status.SALES)
-                .address("test")
-                .build());
-        Sell sell2 = sellRepository.save(Sell.builder()
-                .sellType(Sell.SellType.WHOLESALE)
-                .paymentType(Sell.PaymentType.TRANSFER)
-                .documentNumber("test2")
-                .date(LocalDate.now())
-                .warehouse(warehouse1)
-                .client(client)
-                .employee(employee)
-                .status(Sell.Status.SALES)
-                .address("test")
-                .build());
-        Sell sell3 = sellRepository.save(Sell.builder()
-                .sellType(Sell.SellType.RETAIL)
-                .paymentType(Sell.PaymentType.CASH)
-                .documentNumber("test3")
-                .date(LocalDate.now())
-                .warehouse(warehouse1)
-                .client(client)
-                .employee(employee)
-                .status(Sell.Status.SALES)
-                .address("test")
-                .build());
-        Sell sell4 = sellRepository.save(Sell.builder()
-                .sellType(Sell.SellType.RETAIL)
-                .paymentType(Sell.PaymentType.CASH)
-                .documentNumber("test4")
-                .date(LocalDate.now())
-                .warehouse(warehouse1)
-                .client(client)
-                .employee(employee)
-                .status(Sell.Status.SALES)
-                .address("test")
-                .build());
-
-        SellItem sellItem1 = sellItemRepository.save(SellItem.builder()
-                .product(product1)
-                .sell(sell1)
-                .count(10)
-                .build());
-        SellItem sellItem2 = sellItemRepository.save(SellItem.builder()
-                .product(product2)
-                .sell(sell1)
-                .count(5)
-                .build());
-        SellItem sellItem3 = sellItemRepository.save(SellItem.builder()
-                .product(product3)
-                .sell(sell2)
-                .count(15)
-                .build());
-        SellItem sellItem4 = sellItemRepository.save(SellItem.builder()
-                .product(product1)
-                .sell(sell3)
-                .count(5)
-                .build());
-        SellItem sellItem5 = sellItemRepository.save(SellItem.builder()
-                .product(product3)
-                .sell(sell4)
-                .count(25)
-                .build());
-
+        for (int i = 0; i < 40; i++) {
+            BigDecimal purchasePrice = BigDecimal.valueOf(Math.random() * 100).setScale(0, RoundingMode.HALF_UP);
+            Product product = productRepository.save(Product.builder()
+                    .barecode(UUID.randomUUID().toString())
+                    .type("test")
+                    .name("test" + i)
+                    .group("test")
+                    .purchasePrice(purchasePrice)
+                    .sellPrice(purchasePrice.multiply(BigDecimal.valueOf(1.5)))
+                    .wholesalePrice(purchasePrice.multiply(BigDecimal.valueOf(1.2)))
+                    .units("test")
+                    .build());
+            for (int j = 0; j < 12; j++) {
+                Sell sell = sellRepository.save(Sell.builder()
+                        .sellType(Sell.SellType.RETAIL)
+                        .paymentType(Sell.PaymentType.CASH)
+                        .documentNumber("test" + (j + i))
+                        .date(LocalDate.now().minusMonths(j))
+                        .warehouse(warehouse1)
+                        .client(client)
+                        .employee(employee)
+                        .status(Sell.Status.SALES)
+                        .address("test")
+                        .build());
+                int min = BigDecimal.valueOf(Math.random() * (9 - 4) + 4).intValue();
+                int max = BigDecimal.valueOf(Math.random() * (15 - 9) + 9).intValue();
+                sellItemRepository.save(SellItem.builder()
+                        .product(product)
+                        .sell(sell)
+                        .count(BigDecimal.valueOf(Math.random() * (max * 1000 - min * 1000) + min * 1000).intValue())
+                        .build());
+            }
+        }
     }
-
 }
