@@ -39,6 +39,7 @@ public interface SellRepository extends JpaRepository<Sell, Integer> {
                    "                    FROM sell s\n" +
                    "                        JOIN sell_item si ON si.sell_id = s.id\n" +
                    "                        JOIN product p ON si.product_id = p.id\n" +
+                   "                    WHERE p.decommissioned = false" +
                    "               ) i_s\n" +
                    "               CROSS JOIN (\n" +
                    "                  SELECT\n" +
@@ -52,6 +53,7 @@ public interface SellRepository extends JpaRepository<Sell, Integer> {
                    "                        FROM sell s\n" +
                    "                                 JOIN sell_item si ON si.sell_id = s.id\n" +
                    "                                 JOIN product p ON si.product_id = p.id\n" +
+                   "                        WHERE p.decommissioned = false" +
                    "                  ) i_s) t_p\n" +
                    "          GROUP BY id,\n" +
                    "                   name,\n" +

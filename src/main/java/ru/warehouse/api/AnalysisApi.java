@@ -41,6 +41,9 @@ public class AnalysisApi {
         Map<Product, Map<Integer, Integer>> map = new HashMap<>();
         Map<Integer, Integer> defaultMap = getDefaultCountByMonthMap();
         sells.stream().flatMap(s -> s.getSellItems().stream()).forEach(si -> {
+            if (si.getProduct().isDecommissioned()) {
+                return;
+            }
             Map<Integer, Integer> value = new HashMap<>(map.getOrDefault(si.getProduct(), defaultMap));
             value.merge(si.getSell().getDate().getMonthValue(), si.getCount(), Integer::sum);
             map.put(si.getProduct(), value);

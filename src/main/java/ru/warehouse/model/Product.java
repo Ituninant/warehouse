@@ -44,4 +44,5 @@ public class Product {
 
     String units;
 
+    boolean decommissioned;
 }
